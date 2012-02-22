@@ -62,9 +62,9 @@ class SassRuleNode extends SassNode {
    * If the selectors are to continue for the rule the selector must end in a comma
    * @param string selector
    */
-  public function addSelectors($selectors, $explode = true) {
+  public function addSelectors($selectors) {
     $this->isContinued = substr($selectors, -1) === self::CONTINUED;
-    $this->selectors = array_merge($this->selectors, $explode ? $this->explode($selectors) : $selectors);
+    $this->selectors = array_merge($this->selectors, $this->explode($selectors));
   }
 
   /**
@@ -125,7 +125,7 @@ class SassRuleNode extends SassNode {
       else {
         $pattern = preg_quote($extendee);
       }
-      foreach (preg_grep('/'.$pattern.'/', $this->selectors) as $selector) {
+      foreach (preg_grep('/'.$pattern.'$/', $this->selectors) as $selector) {
         foreach ($extenders as $extender) {
           if (is_array($extendee)) {
             $this->selectors[] = preg_replace('/(.*?)'.$pattern.'$/', "\\1$extender\\2", $selector);
@@ -138,7 +138,6 @@ class SassRuleNode extends SassNode {
           }
         }
       }
-      $this->selectors = array_unique($this->selectors);
     }
   }
 
@@ -168,31 +167,24 @@ class SassRuleNode extends SassNode {
    */
   private function mergeSequence($extender, $selector) {
     $extender = explode(' ', $extender);
-    $end = array_pop($extender);
+    $end = ' '.array_pop($extender);
     $selector = explode(' ', $selector);
     array_pop($selector);
 
     $common = array();
-    if (count($extender) && count($selector)) {
-      while(trim($extender[0]) === trim($selector[0])) {
-        $common[] = array_shift($selector);
-        array_shift($extender);
-
-        if (!count($extender)) {
-          break;
+        if (sizeof($extender) > 0) {
+            while($extender[0] === $selector[0]) {
+                $common[] = array_shift($selector);
+                array_shift($extender);
+            }
         }
-      }
-    }
 
     $begining = (!empty($common) ? join(' ', $common) . ' ' : '');
 
-    # Richard Lyon - 2011-10-25 - removes duplicates by uniquing and trimming.
-    # regex removes whitespace from start and and end of string as well as removing
-    # whitespace following whitespace. slightly quicker than a trim and simpler replace
-    return array_unique(array(
-      preg_replace('/(^\s+|(\s)\s+|\s+$)/', '$2', $begining.join(' ', $selector).' '.join(' ', $extender). ' ' . $end),
-      preg_replace('/(^\s+|(\s)\s+|\s+$)/', '$2', $begining.join(' ', $extender).' '.join(' ', $selector). ' ' . $end)
-    ));
+    return array(
+      $begining.join(' ', $selector).' '.join(' ', $extender).$end,
+      $begining.join(' ', $extender).' '.join(' ', $selector).$end
+    );
   }
 
   /**
@@ -208,35 +200,28 @@ class SassRuleNode extends SassNode {
    * Interpolates SassScript in selectors and resolves any parent references or
    * appends the parent selectors.
    * @param SassContext the context in which this node is parsed
-   *
-   * Change: 7/Dec/11 - change to make selector ordering conform to Ruby compiler.
    */
   public function resolveSelectors($context) {
-    $resolvedSelectors = $normalSelectors = array();
+    $resolvedSelectors = array();
     $this->parentSelectors = $this->getParentSelectors($context);
 
     foreach ($this->selectors as $key=>$selector) {
       $selector = $this->interpolate($selector, $context);
+      //$selector = $this->evaluate($this->interpolate($selector, $context), $context)->toString();
       if ($this->hasParentReference($selector)) {
         $resolvedSelectors = array_merge($resolvedSelectors, $this->resolveParentReferences($selector, $context));
       }
+      elseif ($this->parentSelectors) {
+        foreach ($this->parentSelectors as $parentSelector) {
+          $resolvedSelectors[] = "$parentSelector $selector";
+        } // foreach
+      }
       else {
-        $normalSelectors[] = $selector;
+        $resolvedSelectors[] = $selector;
       }
     } // foreach
-
-    // merge with parent selectors
-    if ($this->parentSelectors) {
-      $return = array();
-      foreach ($this->parentSelectors as $parent) {
-        foreach ($normalSelectors as $selector) {
-          $return[] = $parent . ' ' . $selector;
-        }
-      }
-      $normalSelectors = $return;
-    }
-
-    return array_merge($normalSelectors, $resolvedSelectors);
+    sort($resolvedSelectors);
+    return $resolvedSelectors;
   }
 
   /**
@@ -300,7 +285,8 @@ class SassRuleNode extends SassNode {
   private function resolveParentReferences($selector, $context) {
     $resolvedReferences = array();
     if (!count($this->parentSelectors)) {
-      throw new SassRuleNodeException('Can not use parent selector (' . self::PARENT_REFERENCE . ') when no parent selectors', $this);
+      throw new SassRuleNodeException('Can not use parent selector (' .
+          self::PARENT_REFERENCE . ') when no parent selectors', array(), $this);
     }
     foreach ($this->getParentSelectors($context) as $parentSelector) {
       $resolvedReferences[] = str_replace(self::PARENT_REFERENCE, $parentSelector, $selector);
@@ -333,7 +319,7 @@ class SassRuleNode extends SassNode {
           do {
             $_c = $string[++$i];
             $selector .= $_c;
-          } while ($_c !== $c && isset($string[$i+1]));
+          } while ($_c !== $c);
         }
         elseif ($c === '#' && $string[$i+1] === '{') {
           do {

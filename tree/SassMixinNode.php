@@ -17,10 +17,15 @@
  */
 class SassMixinNode extends SassNode {
   const NODE_IDENTIFIER = '+';
-  const MATCH = '/^(\+|@include\s+)([a-z0-9_-]+)\s*(?:\((.*?)\))?\s*$/i';
+  const MATCH = '/^(\+|@include\s+)([-\w]+)\s*(?:\((.*?)\))?$/i';
   const IDENTIFIER = 1;
   const NAME = 2;
   const ARGS = 3;
+
+    // Name parameters (keyword arguments)
+  const NAMED_MATCH = '/^[$]{1}([a-zA-Z0-9_-]+):\s*(.*)$/i';
+    const NAMED_NAME = 1;
+    const NAMED_VALUE = 2;
 
   /**
    * @var string name of the mixin
@@ -39,10 +44,6 @@ class SassMixinNode extends SassNode {
   public function __construct($token) {
     parent::__construct($token);
     preg_match(self::MATCH, $token->source, $matches);
-
-    if (!isset($matches[self::NAME])) {
-      throw new SassMixinNodeException('Invalid mixin invocation: ($token->source)', $this);
-    }
     $this->name = $matches[self::NAME];
     if (isset($matches[self::ARGS])) {
       $this->args = SassScriptFunction::extractArgs($matches[self::ARGS]);
@@ -58,33 +59,46 @@ class SassMixinNode extends SassNode {
    */
   public function parse($pcontext) {
     $mixin = $pcontext->getMixin($this->name);
+
     $context = new SassContext($pcontext);
-    $context->content = $this->children;
     $argc = count($this->args);
     $count = 0;
-
     foreach ($mixin->args as $name=>$value) {
       if ($count < $argc) {
-        $result = $this->evaluate($this->args[$count++], $pcontext);
+                $match = preg_match(self::NAMED_MATCH, $this->args[$count], $matches);
+                if ($match) {
+                    if (!$context->hasVariable($name)) {
+                        // Set the default parameter
+                        $context->setVariable($name, $this->evaluate($value, $context));
+                    }
+
+                    // Set the named parameter
+                    $name = $matches[self::NAMED_NAME];
+                    $value = $matches[self::NAMED_VALUE];
+
+                    $context->setVariable($name, $this->evaluate($value, $context));
+                } elseif (!$context->hasVariable($name)) {
+                    $context->setVariable($name, $this->evaluate($this->args[$count], $context));
+                }
+                $count++;
       }
       elseif (!is_null($value)) {
-        $result = $this->evaluate($value, $context);
-      }
-      if (isset($result)) {
-        $context->setVariable($name, $result);
+                if (!$context->hasVariable($name)) {
+                    $context->setVariable($name, $this->evaluate($value, $context));
+                }
       }
       else {
-        throw new SassMixinNodeException("Mixin::$name: Required variable ($this->name) not given.\nMixin defined: ". $mixin->token->filename . "::" . $mixin->token->line . "\nMixin used", $this);
+        throw new SassMixinNodeException("Mixin::{mname}: Required variable ({vname}) not given.\nMixin defined: {dfile}::{dline}\nMixin used", array('{vname}'=>$name, '{mname}'=>$this->name, '{dfile}'=>$mixin->token->filename, '{dline}'=>$mixin->token->line), $this);
       }
-    }
+    } // foreach
 
     $children = array();
     foreach ($mixin->children as $child) {
       $child->parent = $this;
       $children = array_merge($children, $child->parse($context));
-    }
+    } // foreach
 
-    // $context->merge();
+    //$context->merge();
     return $children;
   }
 
