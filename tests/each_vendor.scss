@@ -1,0 +1,21 @@
+@mixin vendor($property, $value) {
+    @each $vendor in webkit, moz, ms, o {
+        #{$property}: -#{$vendor}-#{$value};
+    }
+    #{$property}: #{$value};
+}
+
+@mixin vendor-property($property, $value) {
+    @each $vendor in webkit, moz, ms, o {
+        -#{$vendor}-#{$property}: #{$value};
+    }
+    #{$property}: #{$value};
+}
+
+.corner-all {
+    @include vendor-property(border-radius, 5px);
+}
+
+.display-box {
+    @include vendor(display, box);
+}
