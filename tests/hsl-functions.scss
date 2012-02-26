@@ -1,0 +1,15 @@
+#hsl {
+  background: hsl(.09, 1, .47);
+  background: hsla(.09, 1, .47, .5);
+  background: hue(#f28500);
+  background: saturation(#f28500);
+  background: lightness(#f28500);
+  background: adjust-hue(#f28500, .01);
+  background: lighten(#f28500, .5);
+  background: darken(#f28500, .5);
+  background: saturate(#f28500, .5);
+  background: desaturate(#f28500, .5);
+  background: grayscale(#f28500);
+  background: complement(#f28500);
+  background: invert(#f28500);
+}

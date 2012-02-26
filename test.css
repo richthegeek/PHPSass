@@ -1,0 +1,12 @@
+p {
+  font-size: 18px;
+  margin-bottom: -18px;
+}
+
+.pass {
+  background-color: #effde6;
+}
+
+.fail {
+  background-color:#fcb6c5;
+}
