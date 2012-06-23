@@ -16,7 +16,7 @@
  * @subpackage  Sass.tree
  */
 class SassPropertyNode extends SassNode {
-  const MATCH_PROPERTY_NEW = '/^([^\s=:"]+)\s*(?:(= )|:)([^\:].*?)?$/';
+  const MATCH_PROPERTY_NEW = '/^([^\s=:"]*)\s*(?:(= )|:)([^\:].*?)?$/';
   const MATCH_PROPERTY_OLD = '/^:([^\s=:]+)(?:\s*(=)\s*|\s+|$)(.*)/';
   const MATCH_PSUEDO_SELECTOR = '/^:*\w[-\w]+\(?/i';
   const MATCH_INTERPOLATION = '/^#\{(.*?)\}/i';
