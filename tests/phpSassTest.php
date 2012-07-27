@@ -302,6 +302,10 @@ class PHPSass_TestCase extends PHPUnit_Framework_TestCase {
     $this->runSassTest('nested.sass');
   }
 
+  public function testNestedMedia() {
+    $this->runSassTest('nested-media.scss');
+  }
+
   public function testNumber() {
     $this->runSassTest('number.scss');
   }
