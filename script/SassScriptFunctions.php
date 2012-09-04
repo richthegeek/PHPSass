@@ -759,28 +759,26 @@ class SassScriptFunctions {
     return $number;
   }
 
-  public static function max($n1, $n2, $n3 = false, $n4 = false, $n5 = false) {
-    $max = $n1;
-    for ($i = 2; $i <= 5; $i++) {
-      $var = 'n' . $i;
-      $var = $$var;
-      if ($var instanceof SassNumber && $var->op_gt($max)) {
+  public static function  max() {
+    $max = func_get_arg(0);
+  foreach(func_get_args() as $var)
+	{
+      if ($var instanceof SassNumber && $var->op_gt($max)->value) {
         $max = $var;
       }
     }
     return $max;
   }
 
-  public static function min($n1, $n2, $n3 = false, $n4 = false, $n5 = false) {
-    $max = $n1;
-    for ($i = 2; $i <= 5; $i++) {
-      $var = 'n' . $i;
-      $var = $$var;
-      if ($var instanceof SassNumber && $var->op_lt($max)) {
-        $max = $var;
+  public static function  min() {
+    $min = func_get_arg(0);
+	foreach(func_get_args() as $var)
+	{
+      if ($var instanceof SassNumber && $var->op_lt($min)->value) {
+        $min = $var;
       }
     }
-    return $max;
+    return $min;
   }
 
 
