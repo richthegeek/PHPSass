@@ -654,7 +654,7 @@ class SassScriptFunctions {
    * returns an IE hex string for a color with an alpha channel
    * suitable for passing to IE filters.
    */
-  function ie_hex_str($color) {
+  public static function ie_hex_str($color) {
     if (!($color instanceof SassColour)) {
       $color = new SassColour($color);
     }
