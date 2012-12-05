@@ -3,27 +3,32 @@
  */
 .bar,
 .baz {
-	color: blue; }
+    color: blue;
+}
 
 /*
  * test unused placeholder
  */
- /* 
- * test placeholder descendant selector
- */
+/*
+* test placeholder descendant selector
+*/
 #context .bar a {
-	color: blue; }
+    color: blue;
+}
 
 /*
  * test placeholder-descendant with multiple extenders
  */
 .bar .baz {
-	color: blue; }
+    color: blue;
+}
+
 /*
  * test placeholder selector as modifier
  */
 a.bar.baz {
-	color: blue; }
+    color: blue;
+}
 
 /*
  * the div should not be rendered as it results in adiv (invalid)
@@ -33,16 +38,19 @@ a.bar.baz {
  * test placeholder selector modifier again
  */
 .hello.goodbye {
-	color: blue; }
+    color: blue;
+}
 
 /*
  * test placeholder interpolation
  */
 .inter {
-	color: blue; }
+    color: blue;
+}
 
 /*
  * test media in a plaecholder
  */
 .media {
-	c: d; }
+    c: d;
+}

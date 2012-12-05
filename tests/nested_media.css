@@ -1,5 +1,9 @@
 @media only screen and (max-width: 480px) {
     a b {
-            one: two; }
-	    a b c {
-	            three: four; } }
+        one: two;
+    }
+
+    a b c {
+        three: four;
+    }
+}

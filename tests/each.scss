@@ -11,7 +11,7 @@ c {
 }
 
 e {
-	@each $single in blue {
-		f: $single;
-	}
+  @each $single in blue {
+    f: $single;
+  }
 }

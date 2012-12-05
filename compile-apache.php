@@ -11,11 +11,14 @@ header('Content-type: text/css');
 
 require_once './SassParser.php';
 
-function warn($text, $context) {
-	print "/** WARN: $text, on line {$context->node->token->line} of {$context->node->token->filename} **/\n";
+function warn($text, $context)
+{
+    print "/** WARN: $text, on line {$context->node->token->line} of {$context->node->token->filename} **/\n";
 }
-function debug($text, $context) {
-	print "/** DEBUG: $text, on line {$context->node->token->line} of {$context->node->token->filename} **/\n";
+
+function debug($text, $context)
+{
+    print "/** DEBUG: $text, on line {$context->node->token->line} of {$context->node->token->filename} **/\n";
 }
 
 
@@ -23,20 +26,20 @@ $file = $_SERVER['DOCUMENT_ROOT'] . $_SERVER['PATH_INFO'];
 $syntax = substr($file, -4, 4);
 
 $options = array(
-	'style' => 'expanded',
-	'cache' => FALSE,
-	'syntax' => $syntax,
-	'debug' => FALSE,
-	'callbacks' => array(
-		'warn' => 'warn',
-		'debug' => 'debug'
-	),
+    'style' => 'expanded',
+    'cache' => false,
+    'syntax' => $syntax,
+    'debug' => false,
+    'callbacks' => array(
+        'warn' => 'warn',
+        'debug' => 'debug'
+    ),
 );
 
 // Execute the compiler.
 $parser = new SassParser($options);
 try {
-	print "\n\n" . $parser->toCss($file);
+    print "\n\n" . $parser->toCss($file);
 } catch (Exception $e) {
-	print $e->getMessage();	
+    print $e->getMessage();
 }

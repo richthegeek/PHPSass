@@ -2,45 +2,46 @@ $foo: 'foo', bar;
 
 // selector interpolation
 #{$foo} {
-	o: k;
+  o: k;
 }
 
 // nested selector interpolation
 outer {
-	#{$foo} {
-		o: k;
-	}
+  #{$foo} {
+    o: k;
+  }
 }
 
 // nested again, but with complexity (commas in the body content)
 body[content="oh, look"] {
-	#{$foo} {
-		o: k;
-	}
+  #{$foo} {
+    o: k;
+  }
 }
 
 // interpolation quoted
 .foo-#{"bar"} {
-	o: k
+  o: k
 }
 
 // placeholder interpolation
 $bar: bar;
 %#{$bar} {
-	o: k
+  o: k
 }
+
 .bar {
-	@extend %bar;
+  @extend %bar;
 }
 
 // string interpolation
 foo#{1 + 1}bar {
-	o: k
+  o: k
 }
 
 // interpolation in a function call
 nex3_is_weird {
-	flabnabbit: flabnabbit('#{1 + 'foo'}');
+  flabnabbit: flabnabbit('#{1 + 'foo'}');
 }
 
 $media: screen;
@@ -49,6 +50,6 @@ $value: 1.5;
 
 @media #{$media} and ($feature: $value) {
   webkit-only {
-  	color: green;
+    color: green;
   }
 }

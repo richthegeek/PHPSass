@@ -420,7 +420,7 @@ class SassParser {
 
         if ($this->syntax !== SassFile::SASS && $this->syntax !== SassFile::SCSS && $this->syntax !== SassFile::CSS) {
           if ($this->debug) {
-            throw new \SassException('Invalid {what}', array('{what}' => 'syntax option'));
+            throw new SassException('Invalid {what}', array('{what}' => 'syntax option'));
           }
           return FALSE;
         }

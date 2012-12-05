@@ -1,6 +1,8 @@
 test {
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#ccffffff',GradientType=0 );
-	foo: bar; }
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#feffff', endColorstr = '#ccffffff', GradientType = 0);
+    foo: bar;
+}
 
 other {
-	hello: goodbye; }
+    hello: goodbye;
+}

@@ -153,22 +153,22 @@ body.holmes-debug
     top: 0
     z-index: 9999
 
-  &[bgproperties]:hover::after,
-  &[topmargin]:hover::after,
-  &[rightmargin]:hover::after,
-  &[bottommargin]:hover::after,
-  &[leftmargin]:hover::after
-    border-radius: 0.5em
-    display: block
-    padding: 1em
-    margin: 1em
-    background: red
-    position: fixed
-    background: #a9a9a9
-    color: #000
-    bottom: 0
-    right: 0
-    z-index: 9999
+  &[bgproperties]:hover: :after,
+  &[topmargin]:hover: :after,
+  &[rightmargin]:hover: :after,
+  &[bottommargin]:hover: :after,
+  &[leftmargin]:hover: :after
+  border-radius: 0.5em
+  display: block
+  padding: 1em
+  margin: 1em
+  background: red
+  position: fixed
+  background: #a9a9a9
+  color: #000
+  bottom: 0
+  right: 0
+  z-index: 9999
 
   td:empty:hover::after,
   th:empty:hover::after
@@ -187,7 +187,6 @@ body.holmes-debug
   a:not([title]):hover::after,
   a[title=""]:hover::after
     content: "Missing title attribute"
-
 
   img:not([alt]):hover::after,
   img[alt=""]:hover::after
@@ -235,14 +234,14 @@ body.holmes-debug
   xmp:hover::after
     content: "Deprecated or Non-W3C element"
 
-  &[bgproperties]:hover::after
-    content: "Deprecated or Non-W3C body attribute bgproperties"
+  &[bgproperties]:hover: :after
+  content: "Deprecated or Non-W3C body attribute bgproperties"
 
-  &[topmargin]:hover::after,
-  &[rightmargin]:hover::after,
-  &[bottommargin]:hover::after,
-  &[leftmargin]:hover::after
-    content: "Deprecated or Non-W3C body attribute *margin"
+  &[topmargin]:hover: :after,
+  &[rightmargin]:hover: :after,
+  &[bottommargin]:hover: :after,
+  &[leftmargin]:hover: :after
+  content: "Deprecated or Non-W3C body attribute *margin"
 
   *[bordercolor]:hover::after,
   *[bordercolordark]:hover::after,

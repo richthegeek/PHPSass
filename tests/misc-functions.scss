@@ -5,7 +5,7 @@
 }
 
 .min-max {
-	$list: 34, 42, 29, 3, -42;
-	min: min($list...);
-	max: max($list...);
+  $list: 34, 42, 29, 3, -42;
+  min: min($list...);
+  max: max($list...);
 }

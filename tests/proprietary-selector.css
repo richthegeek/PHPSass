@@ -1,4 +1,7 @@
 input:-moz-placeholder {
-	color: #cccccc; }
+    color: #cccccc;
+}
+
 input::-webkit-input-placeholder {
-	color: #cccccc; }
+    color: #cccccc;
+}
