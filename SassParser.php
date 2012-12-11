@@ -638,7 +638,14 @@ class SassParser {
       switch ($c) {
         case self::BEGIN_COMMENT:
           if (substr($this->source, $srcpos-1, strlen(self::BEGIN_SASS_COMMENT)) === self::BEGIN_SASS_COMMENT) {
-            while ($this->source[$srcpos++] !== "\n");
+            while ($this->source[$srcpos++] !== "\n") {
+              if ($srcpos >= $srclen)
+                throw new SassException('Unterminated commend', (object) array(
+                  'source' => $statement,
+                  'filename' => $this->filename,
+                  'line' => $this->line,
+                ));
+            }
             $statement .= "\n";
           }
           elseif (substr($this->source, $srcpos-1, strlen(self::BEGIN_CSS_COMMENT)) === self::BEGIN_CSS_COMMENT) {
