@@ -896,9 +896,13 @@ class SassScriptFunctions {
 
   public static function append($list, $val, $sep = ', ') {
     if ($list instanceOf SassString) {
-      $list = new SassList($list->toString());
+        $list = new SassList($list->toString());
+        $list->append($val, $sep);
+    } elseif ($list instanceOf SassBoolean && $list->value === false) {
+        $list = new SassList( $val, $sep );
+    } else {
+        $list->append($val, $sep);
     }
-    $list->append($val, $sep);
     return $list;
   }
 
