@@ -25,6 +25,9 @@
             "homepage": "https://github.com/snugug"
         }
     ],
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
     "autoload": {
         "classmap": [
             "script/",
