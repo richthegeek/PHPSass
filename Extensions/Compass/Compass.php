@@ -502,4 +502,20 @@ class Compass implements ExtensionInterface
         return new SassString("url('$path')");
     }
 
+    public static function compassOppositePosition($from)
+    {
+        $ret = '';
+        if ($from == 'top') {
+            $ret = 'bottom';
+        } else if ($from == 'bottom') {
+            $ret = 'top';
+        } else if ($from == 'left') {
+            $ret = 'right';
+        } else if ($from == 'right') {
+            $ret = 'left';
+        } else if ($from == 'center') {
+            $ret = 'center';
+        }
+        return $ret;
+    }
 }
