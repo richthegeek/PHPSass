@@ -321,6 +321,14 @@ class PHPSass_TestCase extends PHPUnit_Framework_TestCase {
     $this->runSassTest('media_in_mixin_in_mixin.scss');
   }
 
+  public function testIfParentheses() {
+    $this->runSassTest('if_parentheses.scss');
+  }
+
+  public function testListEmpty() {
+    $this->runSassTest('list_empty.scss');
+  }
+
   public function testWarnImported() {
     $this->markTestIncomplete('This test has not been implemented yet.');
     //$this->runSassTest('warn_imported.sass');
@@ -328,5 +336,9 @@ class PHPSass_TestCase extends PHPUnit_Framework_TestCase {
 
   public function testWarn() {
     $this->runSassTest('warn.sass');
+  }
+
+  public function testMixinSetvar() {
+    $this->runSassTest('mixin_setvar.scss');
   }
 }
