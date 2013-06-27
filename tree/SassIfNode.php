@@ -18,8 +18,8 @@
  */
 class SassIfNode extends SassNode
 {
-  const MATCH_IF = '/^@if\s+(.+)$/i';
-  const MATCH_ELSE = '/@else(\s+if\s+(.+))?/i';
+  const MATCH_IF = '/^@if\s*(.+)$/i';
+  const MATCH_ELSE = '/@else(\s+if)\s*(.+))?/i';
   const IF_EXPRESSION = 1;
   const ELSE_IF = 1;
   const ELSE_EXPRESSION = 2;
