@@ -44,11 +44,12 @@ class SassDirectiveNode extends SassNode
    */
   public function parse($context)
   {
-    $this->token->source = self::interpolate_nonstrict($this->token->source, $context);
+    $node = clone $this;
+    $node->token->source = self::interpolate_nonstrict($this->token->source, $context);
 
-    $this->children = $this->parseChildren($context);
+    $node->children = $this->parseChildren($context);
 
-    return array($this);
+    return array($node);
   }
 
   /**
@@ -63,6 +64,15 @@ class SassDirectiveNode extends SassNode
     } // foreach
 
     return $this->renderer->renderDirective($this, $properties);
+  }
+
+  /**
+   * @see parse
+   */
+  public function __clone()
+  {
+    parent::__clone();
+    $this->token = clone $this->token;
   }
 
   /**
