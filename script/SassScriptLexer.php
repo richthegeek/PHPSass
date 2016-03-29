@@ -67,7 +67,7 @@ class SassScriptLexer
     }
 	$tokens = array();
     // whilst the string is not empty, split it into it's tokens.
-    while (is_string($string)) {
+    while ($string !== false) {
       if (($match = $this->isWhitespace($string)) !== false) {
         $tokens[] = null;
       } elseif (($match = SassScriptFunction::isa($string)) !== false) {
@@ -118,6 +118,9 @@ class SassScriptLexer
         $tokens[] = new SassString($match);
       }
       $string = substr($string, strlen($match));
+      if ($string == '') {
+          $string = false;
+      }
     }
 
     return $tokens;
