@@ -428,7 +428,7 @@ class SassNumber extends SassLiteral
    */
   public function isUnitless()
   {
-    return isset($this->numeratorUnits) && isset($this->denominatorUnits);
+    return !isset($this->numeratorUnits) && !isset($this->denominatorUnits);
   }
 
   /**
@@ -448,7 +448,7 @@ class SassNumber extends SassLiteral
    */
   public function hasLegalUnits()
   {
-    return (empty($this->numeratorUnits) || count($this->numeratorUnits) === 1) && empty($this->denominatorUnits);
+    return (!isset($this->numeratorUnits) || count($this->numeratorUnits) === 1) && !isset($this->denominatorUnits);
   }
 
   /**
