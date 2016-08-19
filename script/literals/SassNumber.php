@@ -371,6 +371,38 @@ class SassNumber extends SassLiteral
 
     $coercionFactor = 1;
     foreach ($fromUnits as $i=>$from) {
+      if (!isset($toUnits[$i])) {
+        //workaround for php 5.4, 5.5, 5.6, works also with 5.3
+        /***** DEBUG code used to come up with this workaround -- comment this out if you want to debug
+        print (" <br> ");
+        print ("ROW1 i: ");
+        print_r($i);
+        print (" : count(fromUnits): " . count($fromUnits) . ":=fromUnits count " );
+        print (" ");
+        print (" <br> ");
+        print ("ROW2 from: ");
+        print ($from);
+        print (" ");
+        print (" <br> ");
+        print ("ROW3 : ");
+        print_r($toUnits); 
+        print (" :(toUnits)");
+        print (" <br> ");
+        print ("ROW4 :");
+        print_r($toUnits[$i]);
+        print (" :(toUnits[i]) ");
+        print (" <br> ");
+        print ("ROW5 ");
+        print_r(self::$unitConversion[$from]);
+        print (" :self::unitConversion[$from]");
+        print (" ");
+        print (" <br> ");
+        *******************END OF THE DEBUG SECTION*********************/
+	if (isset($toUnits[$i+1])) {
+          //workaround for php 5.4, 5.5, 5.6, for some reason index 1 sometimes has data that under other versions of php was in index 0, this is the workaround
+	  $toUnits[$i] = $toUnits[$i+1];
+	}
+      }
       if (array_key_exists($i, $toUnits) && array_key_exists($toUnits[$i], self::$unitConversion)) {
         $coercionFactor *= self::$unitConversion[$toUnits[$i]] / self::$unitConversion[$from];
       } else {
