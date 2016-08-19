@@ -88,7 +88,7 @@ class SassNumber extends SassLiteral
     $matches += array(null,null,'','');
 
     $this->value = $matches[self::VALUE];
-    if (isset($matches[self::UNITS])) {
+    if (!empty($matches[self::UNITS])) {
       $units = explode('/', $matches[self::UNITS]);
       $numeratorUnits = $denominatorUnits = array();
 
@@ -346,7 +346,7 @@ class SassNumber extends SassLiteral
       $this->value : $this->value *
       $this->coercionFactor($this->numeratorUnits, $numeratorUnits) /
       $this->coercionFactor($this->denominatorUnits, $denominatorUnits)
-    ) . join(' * ', $numeratorUnits) . (isset($denominatorUnits) ? ' / ' . join(' * ', $denominatorUnits) : ''));
+    ) . join(' * ', $numeratorUnits) . (!empty($denominatorUnits) ? ' / ' . join(' * ', $denominatorUnits) : ''));
   }
 
   /**
@@ -409,7 +409,7 @@ class SassNumber extends SassLiteral
   private function removeCommonUnits($u1, $u2)
   {
     $_u1 = array();
-    while (isset($u1)) {
+    while (!empty($u1)) {
       $u = array_shift($u1);
       $i = array_search($u, $u2);
       if ($i !== false) {
@@ -448,7 +448,7 @@ class SassNumber extends SassLiteral
    */
   public function hasLegalUnits()
   {
-    return (!isset($this->numeratorUnits) || count($this->numeratorUnits) === 1) && !isset($this->denominatorUnits);
+    return (empty($this->numeratorUnits) || count($this->numeratorUnits) === 1) && empty($this->denominatorUnits);
   }
 
   /**
@@ -468,7 +468,7 @@ class SassNumber extends SassLiteral
       }
     }
 
-    return join(' * ', $numeratorUnits) . (isset($denominatorUnits) ? ' / ' . join(' * ', $denominatorUnits) : '');
+    return join(' * ', $numeratorUnits) . (!empty($denominatorUnits) ? ' / ' . join(' * ', $denominatorUnits) : '');
   }
 
   /**
