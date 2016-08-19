@@ -804,9 +804,7 @@ class SassColour extends SassLiteral
       }
     }
 
-    if ($rgba[3] == 0) {
-      return 'transparent';
-    } elseif ($rgba[3] < 1) {
+    if ($rgba[3] < 1) {
       $rgba[3] = str_replace(',','.',round($rgba[3], 2));
 
       return sprintf('rgba(%d, %d, %d, %s)', $rgba[0], $rgba[1], $rgba[2], $rgba[3]);
