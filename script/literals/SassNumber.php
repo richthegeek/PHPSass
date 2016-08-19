@@ -372,7 +372,7 @@ class SassNumber extends SassLiteral
     $coercionFactor = 1;
     foreach ($fromUnits as $i=>$from) {
       if (!isset($toUnits[$i])) {
-        //workaround for php 5.6, bizarre!
+        //workaround for php 5.4, 5.5, 5.6, works also with 5.3
         /***** DEBUG code used to come up with this workaround -- comment this out if you want to debug
         print (" <br> ");
         print ("ROW1 i: ");
@@ -399,7 +399,7 @@ class SassNumber extends SassLiteral
         print (" <br> ");
         *******************END OF THE DEBUG SECTION*********************/
 	if (isset($toUnits[$i+1])) {
-          //workaround for php 5.6, for some reason index 1 sometimes has data that under other versions of php was in index 0, this is the workaround
+          //workaround for php 5.4, 5.5, 5.6, for some reason index 1 sometimes has data that under other versions of php was in index 0, this is the workaround
 	  $toUnits[$i] = $toUnits[$i+1];
 	}
       }
