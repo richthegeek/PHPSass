@@ -824,9 +824,6 @@ class SassParser
   public function parseDirective($token, $parent)
   {
     switch (SassDirectiveNode::extractDirective($token)) {
-      case '@charset':
-        return new SassCharsetNode($token);
-        break;      
       case '@content':
         return new SassContentNode($token);
         break;
