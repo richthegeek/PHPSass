@@ -17,7 +17,7 @@
  */
 class SassCharsetNode extends SassNode
 {
-  const MATCH = '/^(@charset)(.*)$/i';
+  const MATCH = '/^@charset(.*?);?$/i';
   const IDENTIFIER = 1;
 
   /**
@@ -53,7 +53,10 @@ class SassCharsetNode extends SassNode
   }
 
   public function render() {
-    return $this->token->source;
+    // print the original with a semi-colon if needed
+    return $this->token->source 
+      . (substr($this->token->source, -1, 1) == ';' ? '' : ';')
+      . "\n";
   }
 
   /**
