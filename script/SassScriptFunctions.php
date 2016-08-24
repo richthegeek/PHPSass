@@ -235,6 +235,7 @@ class SassScriptFunctions
     return new SassNumber($colour->getHue() . 'deg');
   }
 
+
   /**
    * Returns the saturation component of a colour.
    * @param SassColour $colour The colour
@@ -522,8 +523,16 @@ class SassScriptFunctions
    * @see desaturate
    */
   public static function grayscale($colour)
-  {
-    return self::desaturate($colour, new SassNumber(100));
+  { 
+      if(ctype_xdigit($colour))
+      {
+           return self::desaturate($colour, new SassNumber(100));
+      }
+      else
+      {
+          return "";
+      }
+   
   }
 
   /**
