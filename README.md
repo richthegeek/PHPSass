@@ -1,6 +1,7 @@
-#PHPSass [![build status](https://travis-ci.org/richthegeek/phpsass.png)](https://travis-ci.org/richthegeek/phpsass)
+# PHPSass 
+[![build status](https://travis-ci.org/richthegeek/phpsass.png)](https://travis-ci.org/richthegeek/phpsass)
 
-#IMPORTANT NOTICE
+# IMPORTANT NOTICE
 I'm not involved with PHP development anymore, and just don't have the time to do much more than approve pull requests for this project. I'm happy to stick around as a hands-off dictator, but if there are others who wish to take over maintainership then please get in touch ([my username]@gmail.com).
 
 ## About
